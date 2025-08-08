@@ -4,7 +4,7 @@ A modern, full-stack user management system with geographic intelligence, built 
 
 ## 🎯 Project Overview
 
-This technical assessment implements a complete user management system with automatic geographic data enrichment. The architecture is designed with **lightweight Domain-Driven Design (DDD)** principles to enable future scaling to microservices while maintaining clean separation of concerns.
+🎯 What's This All About? This project is a complete user management system that automatically enriches user profiles with geographic data. I've used lightweight Domain-Driven Design (DDD) principles to keep the code clean and organized. This approach makes it easy to scale up to a microservices architecture in the future without a major headache.
 
 ### Key Features
 - ✅ **Full CRUD operations** for user management
@@ -17,6 +17,7 @@ This technical assessment implements a complete user management system with auto
 - ✅ **Type-safe validation** with Zod schemas
 
 ## 🚀 Quick Start
+Ready to dive in? Here's how to get it running.
 
 ### Prerequisites
 - Node.js 18+ 
@@ -33,6 +34,8 @@ git clone <repository-url>
 cd RentRedi
 
 # 2. Setup environment variables
+# First, add your OpenWeather API key to .env.example
+# Replace your-api-key-here with your actual OpenWeather API key
 cp .env.example .env
 
 # 3. Start all services (dependencies install automatically inside containers)
@@ -76,8 +79,9 @@ cd RentRedi
 npm run install:all
 
 # 3. Environment setup
+# First, add your OpenWeather API key to .env.example
+# Replace YOUR_API_KEY with your actual OpenWeather API key
 cp .env.example .env
-# Edit .env if needed (OpenWeather API key already included)
 ```
 
 #### Running Services
@@ -438,7 +442,8 @@ docker-compose up --build
 
 ### Required
 ```bash
-OPENWEATHER_API_KEY=7afa46f2e91768e7eeeb9001ce40de19
+# Replace this with your actual OpenWeather API key
+OPENWEATHER_API_KEY=your_api_key_here
 ```
 
 ### Optional (with defaults)
