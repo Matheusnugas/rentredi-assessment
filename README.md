@@ -477,9 +477,7 @@ This project is part of the RentRedi technical assessment.
 ## 🔍 Assumptions & Limitations
 
 ### Technical Assumptions
-- Deviated from NestJS scaffolding to keep implementation simpler and more focused
-- Users have modern browsers that support ES6+ features
-- Node.js 18+ is available in the development/deployment environment
+- Did not create a NestJS app for the backend to follow codesandbox.io scaffolding and to keep implementation simpler and more focused
 - Docker is available for containerized deployment
 - Stable internet connection for OpenWeather API calls
 - Single timezone operation (UTC) for backend services
