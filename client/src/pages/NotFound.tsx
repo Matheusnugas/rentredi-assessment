@@ -176,16 +176,20 @@ export default function NotFound() {
                     >
                       <Link
                         to={link.href}
-                        className="block card hover:shadow-glow transition-all duration-300"
+                        className="block card hover:shadow-glow transition-all duration-300 h-full"
                       >
-                        <div className="card-content">
-                          <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${link.color} flex items-center justify-center mb-4 mx-auto`}>
-                            <Icon className="h-6 w-6 text-white" />
+                        <div className="card-content h-full flex flex-col justify-between min-h-[180px]">
+                          <div className="flex flex-col items-center">
+                            <div
+                              className={`w-12 h-12 rounded-xl bg-gradient-to-br ${link.color} flex items-center justify-center mb-4`}
+                            >
+                              <Icon className="h-6 w-6 text-white" />
+                            </div>
+                            <h4 className="text-lg font-semibold text-white mb-2 text-center">
+                              {link.title}
+                            </h4>
                           </div>
-                          <h4 className="text-lg font-semibold text-white mb-2">
-                            {link.title}
-                          </h4>
-                          <p className="text-sm text-dark-400">
+                          <p className="text-sm text-dark-400 text-center">
                             {link.description}
                           </p>
                         </div>
