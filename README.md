@@ -11,6 +11,8 @@ A modern, full-stack user management system with geographic intelligence, built 
 - ✅ **Automatic geographic enrichment** via OpenWeather API
 - ✅ **Real-time database** with Firebase Realtime Database
 - ✅ **Modern React frontend** with TypeScript and Tailwind CSS
+- ✅ **Comprehensive error handling** with Error Boundaries and 404 page
+- ✅ **Development error testing tools** (ErrorTester panel)
 - ✅ **Comprehensive API documentation** with Swagger
 - ✅ **Docker containerization** for easy deployment
 - ✅ **Structured logging** and error handling
@@ -158,6 +160,8 @@ The application features a modern, responsive user interface built with React, T
 - ✨ **Responsive Design**: Works seamlessly across desktop, tablet, and mobile devices
 - 🎨 **Modern UI/UX**: Clean, intuitive interface with smooth animations
 - ⚡ **Real-time Updates**: Instant feedback and updates using React Query
+- 🛡️ **Error Boundaries**: Comprehensive error handling with graceful recovery
+- 🧪 **Development Tools**: Built-in error testing panel (dev mode only)
 - 🔍 **Search & Filter**: Advanced user search and filtering capabilities
 - ✅ **Form Validation**: Real-time form validation with helpful error messages
 - 🌍 **Geographic Integration**: Automatic location data enrichment for users
@@ -328,6 +332,68 @@ The lightweight DDD architecture enables easy scaling to microservices:
 3. **Add message queues** for async communication
 4. **Implement API gateway** for unified access
 5. **Add service discovery** and load balancing
+
+## 🛡️ Error Handling & Testing Tools
+
+### Error Boundaries
+
+The application includes comprehensive error handling to ensure a robust user experience:
+
+#### **ErrorBoundary Component**
+- **Catches React errors** throughout the application tree
+- **Graceful fallback UI** with recovery options ("Try Again", "Go Home")
+- **Development details** - Shows stack traces and component stacks in development
+- **Production ready** - Sanitized error messages in production
+- **Automatic logging** - Errors are logged to console (development) and can be sent to monitoring services
+
+#### **QueryErrorBoundary Component**
+- **Specialized for API errors** - Catches errors from React Query and network requests
+- **Compact error UI** - Smaller, focused error display for specific components
+- **Retry functionality** - Built-in retry mechanism for failed requests
+- **Smart filtering** - Only logs network and API-related errors
+
+#### **404 Page**
+- **Custom 404 page** with animated elements and helpful navigation
+- **Quick links** to main sections (Dashboard, Users, Add User)
+- **Smart back button** - Goes to previous page or home if no history
+- **Responsive design** - Works seamlessly across all devices
+
+### Error Testing (Development Only)
+
+In development mode, you'll see an **Error Tester** panel in the bottom-right corner:
+
+#### **ErrorTester Features**
+- 🎛️ **Collapsible panel** - Click header to minimize/expand
+- 🧪 **Error simulation** - Three types of error testing:
+  - **"Trigger Error Boundary"** - Simulates a React component error
+  - **"Async Error (Console)"** - Shows how async errors aren't caught by boundaries
+  - **"Network Error Test"** - Simulates network/API failures
+- 🔒 **Development only** - Automatically hidden in production builds
+- ⚠️ **Safe testing** - Provides controlled way to test error scenarios
+
+#### **How to Test Error Boundaries**
+
+1. **Start the development server** (`npm run dev`)
+2. **Look for the yellow panel** in the bottom-right corner
+3. **Click "Error Testing"** to expand if minimized
+4. **Try different error types**:
+   - Click "Trigger Error Boundary" to see the main error boundary
+   - Click "Async Error" to see console errors (won't trigger boundary)
+   - Click "Network Error" to simulate API failures
+5. **Test recovery** - Use "Try Again" and "Go Home" buttons
+6. **Test 404 page** - Navigate to any non-existent URL
+
+#### **Integration with Monitoring**
+The error boundaries are designed to integrate easily with error monitoring services:
+
+```typescript
+// In production, you can send errors to services like Sentry
+componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+  if (process.env.NODE_ENV === 'production') {
+    // Example: Sentry.captureException(error, { extra: errorInfo });
+  }
+}
+```
 
 ## 🧪 Development Scripts
 

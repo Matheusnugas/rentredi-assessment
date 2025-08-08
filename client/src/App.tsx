@@ -1,11 +1,12 @@
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { AnimatePresence } from 'framer-motion';
 import ErrorBoundary from "./components/ErrorBoundary";
-import Layout from './components/Layout';
-import Dashboard from './pages/Dashboard';
-import UsersList from './pages/UsersList';
-import CreateUser from './pages/CreateUser';
-import EditUser from './pages/EditUser';
+import ErrorTester from "./components/ErrorTester";
+import Layout from "./components/Layout";
+import Dashboard from "./pages/Dashboard";
+import UsersList from "./pages/UsersList";
+import CreateUser from "./pages/CreateUser";
+import EditUser from "./pages/EditUser";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -25,6 +26,7 @@ function App() {
             <Route path="*" element={<NotFound />} />
           </Routes>
         </AnimatePresence>
+        <ErrorTester />
       </Layout>
     </ErrorBoundary>
   );
