@@ -117,23 +117,23 @@ firebase emulators:start --only database,ui
 The application features a modern, responsive user interface built with React, TypeScript, and Tailwind CSS. Here are some screenshots of the frontend in action:
 
 ### Dashboard Overview
-![Dashboard](https://i.ibb.co/ZzFB73mr/Screenshot-2025-08-08-at-15-07-59.png)
+![Dashboard](https://i.ibb.co/ZzFB73m/Screenshot-2025-08-08-at-15-07-59.png)
 *Main dashboard showing user management interface with clean, modern design*
 
 ### User List View
-![User List](https://i.ibb.co/Cpc2ZSnX/Screenshot-2025-08-08-at-15-08-12.png)
+![User List](https://i.ibb.co/Cpc2ZSn/Screenshot-2025-08-08-at-15-08-12.png)
 *Comprehensive user listing with search and filter capabilities*
 
 ### Create User Form
-![Create User](https://i.ibb.co/zV4Nb31N/Screenshot-2025-08-08-at-15-08-31.png)
+![Create User](https://i.ibb.co/zV4Nb31/Screenshot-2025-08-08-at-15-08-31.png)
 *User creation form with real-time validation and geographic data enrichment*
 
 ### User Details View
-![User Details](https://i.ibb.co/xqhK97Jc/Screenshot-2025-08-08-at-15-08-39.png)
+![User Details](https://i.ibb.co/xqhK97J/Screenshot-2025-08-08-at-15-08-39.png)
 *Detailed user profile view showing all user information and geographic data*
 
 ### Edit User Interface
-![Edit User](https://i.ibb.co/mCC7yQMc/Screenshot-2025-08-08-at-15-08-49.png)
+![Edit User](https://i.ibb.co/mCC7yQM/Screenshot-2025-08-08-at-15-08-49.png)
 *User editing interface with form validation and seamless user experience*
 
 ### Key Frontend Features
