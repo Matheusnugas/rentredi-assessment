@@ -44,7 +44,27 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ) => {
-  logger.error({ error: error.message, stack: error.stack }, 'Request error');
+  const correlationId =
+    (req.headers["x-correlation-id"] as string) || "unknown";
+
+  logger.error(
+    {
+      correlationId,
+      error: error.message,
+      stack: error.stack,
+      request: {
+        method: req.method,
+        url: req.originalUrl || req.url,
+        path: req.path,
+        headers: {
+          "user-agent": req.headers["user-agent"],
+          referer: req.headers.referer,
+          origin: req.headers.origin,
+        },
+      },
+    },
+    "Request error"
+  );
 
   if (error instanceof ZodError) {
     const response: ApiErrorResponse = {

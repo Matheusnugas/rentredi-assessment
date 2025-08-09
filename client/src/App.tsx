@@ -7,6 +7,7 @@ import Dashboard from "./pages/Dashboard";
 import UsersList from "./pages/UsersList";
 import CreateUser from "./pages/CreateUser";
 import EditUser from "./pages/EditUser";
+import AnalyticsTest from "./components/AnalyticsTest";
 import NotFound from "./pages/NotFound";
 
 function App() {
@@ -22,6 +23,7 @@ function App() {
             <Route path="/users" element={<UsersList />} />
             <Route path="/users/new" element={<CreateUser />} />
             <Route path="/users/:id/edit" element={<EditUser />} />
+            <Route path="/analytics-test" element={<AnalyticsTest />} />
             {/* Catch-all route for 404 */}
             <Route path="*" element={<NotFound />} />
           </Routes>

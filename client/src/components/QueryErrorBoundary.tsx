@@ -1,6 +1,7 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { motion } from 'framer-motion';
-import { AlertTriangle, RefreshCw } from 'lucide-react';
+import { Component, ErrorInfo, ReactNode } from "react";
+import { motion } from "framer-motion";
+import { AlertTriangle, RefreshCw } from "lucide-react";
+import { analytics } from "../lib/analytics";
 
 interface Props {
   children: ReactNode;
@@ -27,14 +28,39 @@ export default class QueryErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // Only log API/Query related errors
-    if (error.message.includes('fetch') || error.message.includes('network') || error.message.includes('API')) {
-      console.error('QueryErrorBoundary caught an API error:', error, errorInfo);
+    if (
+      error.message.includes("fetch") ||
+      error.message.includes("network") ||
+      error.message.includes("API")
+    ) {
+      console.error(
+        "QueryErrorBoundary caught an API error:",
+        error,
+        errorInfo
+      );
+
+      analytics.trackError(error, {
+        context: "error_boundary",
+        errorInfo: {
+          componentStack: errorInfo.componentStack,
+        },
+      });
+
+      analytics.trackUserAction("error_boundary_triggered", {
+        errorMessage: error.message,
+        errorName: error.name,
+      });
     }
   }
 
   handleRetry = () => {
     this.setState({ hasError: false, error: null });
+
+    analytics.trackUserAction("error_boundary_retry", {
+      errorMessage: this.state.error?.message,
+      errorName: this.state.error?.name,
+    });
+
     if (this.props.onRetry) {
       this.props.onRetry();
     }
@@ -100,4 +126,4 @@ export default class QueryErrorBoundary extends Component<Props, State> {
 
     return this.props.children;
   }
-} 
+}

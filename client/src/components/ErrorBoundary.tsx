@@ -1,6 +1,6 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
-import { motion } from 'framer-motion';
-import { AlertTriangle, RefreshCw, Home } from 'lucide-react';
+import { Component, ErrorInfo, ReactNode } from "react";
+import { motion } from "framer-motion";
+import { AlertTriangle, RefreshCw, Home } from "lucide-react";
 
 interface Props {
   children: ReactNode;
@@ -32,12 +32,12 @@ export default class ErrorBoundary extends Component<Props, State> {
       error,
       errorInfo,
     });
-    
+
     // Log error to console in development
-    if (process.env.NODE_ENV === 'development') {
-      console.error('ErrorBoundary caught an error:', error, errorInfo);
+    if (process.env.NODE_ENV === "development") {
+      console.error("ErrorBoundary caught an error:", error, errorInfo);
     }
-    
+
     // In production, you would send this to your error reporting service
     // Example: sendErrorToService(error, errorInfo);
   }
@@ -47,7 +47,7 @@ export default class ErrorBoundary extends Component<Props, State> {
   };
 
   handleGoHome = () => {
-    window.location.href = '/';
+    window.location.href = "/";
   };
 
   render() {
@@ -93,11 +93,12 @@ export default class ErrorBoundary extends Component<Props, State> {
                   transition={{ delay: 0.4 }}
                   className="text-dark-300 mb-6"
                 >
-                  We're sorry, but something unexpected happened. Please try refreshing the page or go back to the homepage.
+                  We're sorry, but something unexpected happened. Please try
+                  refreshing the page or go back to the homepage.
                 </motion.p>
 
                 {/* Error Details (Development only) */}
-                {process.env.NODE_ENV === 'development' && this.state.error && (
+                {process.env.NODE_ENV === "development" && this.state.error && (
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
@@ -111,7 +112,7 @@ export default class ErrorBoundary extends Component<Props, State> {
                       {this.state.error.message}
                       {this.state.errorInfo?.componentStack && (
                         <>
-                          {'\n\nComponent Stack:'}
+                          {"\n\nComponent Stack:"}
                           {this.state.errorInfo.componentStack}
                         </>
                       )}
@@ -150,4 +151,4 @@ export default class ErrorBoundary extends Component<Props, State> {
 
     return this.props.children;
   }
-} 
+}

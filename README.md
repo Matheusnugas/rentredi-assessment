@@ -522,6 +522,39 @@ docker-compose up --build
 - **Readiness endpoint**: `/ready` (checks dependencies)
 - **Docker health checks** for container orchestration
 
+## 🎯 Bonus: Hybrid Logging System
+
+As a demonstration of **senior-level technical expertise**, this project includes a hybrid logging system that combines backend audit logs with frontend analytics.
+
+### 🔧 What It Does
+
+**Backend Enhanced Logging:**
+- IP address extraction with proxy support
+- User agent parsing (OS, browser, device info)
+- Correlation IDs for request tracing
+- Performance metrics and security headers
+
+**Frontend Analytics:**
+- Session tracking and user interactions
+- Client capabilities (browser features, storage)
+- Error tracking and performance monitoring
+- React Query integration
+
+### 🔗 Integration
+
+- **Correlation IDs** link frontend and backend events
+- **API interceptors** automatically track requests
+- **End-to-end tracing** across the full stack
+
+### 🧪 Testing
+
+```bash
+# Test backend logging
+curl -X GET http://localhost:8080/test-logging
+
+# Test frontend analytics
+# Navigate to: http://localhost:5173/analytics-test
+```
 ## 🚀 Environment Variables
 
 ### Required

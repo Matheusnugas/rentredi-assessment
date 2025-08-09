@@ -87,7 +87,6 @@ export default function Dashboard() {
       icon: Users,
       color: "from-primary-600 to-primary-700",
       description: "Registered users",
-      trend: "+12%",
     },
     {
       name: "Locations",
@@ -95,7 +94,6 @@ export default function Dashboard() {
       icon: MapPin,
       color: "from-accent-emerald to-green-600",
       description: "Unique locations",
-      trend: "+8%",
     },
     {
       name: "Timezones",
@@ -103,7 +101,6 @@ export default function Dashboard() {
       icon: Globe,
       color: "from-accent-purple to-purple-600",
       description: "Different timezones",
-      trend: "+5%",
     },
     {
       name: "Latest User",
@@ -113,7 +110,6 @@ export default function Dashboard() {
       icon: Clock,
       color: "from-accent-orange to-orange-600",
       description: "Most recent signup",
-      trend: "Today",
     },
   ];
 
@@ -161,11 +157,6 @@ export default function Dashboard() {
                         className={`w-12 h-12 bg-gradient-to-br ${stat.color} rounded-xl flex items-center justify-center shadow-lg`}
                       >
                         <Icon className="h-6 w-6 text-white" />
-                      </div>
-                      <div className="text-right">
-                        <span className="text-xs font-medium text-accent-emerald bg-accent-emerald/20 px-2 py-1 rounded-full">
-                          {stat.trend}
-                        </span>
                       </div>
                     </div>
 

@@ -8,9 +8,14 @@ import swaggerUi from "swagger-ui-express";
 
 import { env } from "./config/env";
 import logger from "./shared/logger";
+import {
+  enhancedRequestLogger,
+  errorLogger,
+} from "./shared/logger/enhancedRequestLogger";
 import { errorHandler, notFoundHandler } from "./shared/http/errorHandler";
 import { responseWrapper } from "./shared/http/responseWrapper";
 import { usersRoutes } from "./interfaces/http/users.routes";
+import { analyticsRoutes } from "./interfaces/http/analytics.routes";
 import { getDatabase } from "./infrastructure/firebase/firebaseAdmin";
 import { specs } from "./config/swagger";
 
@@ -31,6 +36,8 @@ export function createApp(): express.Application {
   );
 
   app.use(compression());
+
+  app.use(enhancedRequestLogger);
 
   app.use(
     pinoHttp({
@@ -72,6 +79,7 @@ export function createApp(): express.Application {
   );
 
   app.use("/api/users", usersRoutes);
+  app.use("/api/analytics", analyticsRoutes);
 
   /**
    * @swagger
@@ -114,6 +122,22 @@ export function createApp(): express.Application {
         uptime: process.uptime(),
       },
       "Health check passed"
+    );
+  });
+
+  app.get("/test-logging", (req, res) => {
+    res.success(
+      {
+        message: "Enhanced logging test endpoint",
+        timestamp: new Date().toISOString(),
+        correlationId: req.headers["x-correlation-id"],
+        clientInfo: {
+          ip: req.ip,
+          userAgent: req.headers["user-agent"],
+          acceptLanguage: req.headers["accept-language"],
+        },
+      },
+      "Enhanced logging test successful"
     );
   });
 
@@ -213,6 +237,7 @@ export function createApp(): express.Application {
   });
 
   app.use(notFoundHandler);
+  app.use(errorLogger);
   app.use(errorHandler);
 
   return app;

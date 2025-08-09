@@ -1,11 +1,12 @@
 import axios from 'axios';
 import { config } from "./config";
-import type { 
-  User, 
-  CreateUserRequest, 
+import { analytics } from "./analytics";
+import type {
+  User,
+  CreateUserRequest,
   UpdateUserRequest,
-  ApiResponse 
-} from '../types/api';
+  ApiResponse,
+} from "../types/api";
 
 const api = axios.create({
   baseURL: config.apiBaseUrl,
@@ -15,13 +16,63 @@ const api = axios.create({
   },
 });
 
-api.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.data) {
-      throw new Error(error.response.data.message || 'An error occurred');
+api.interceptors.request.use(
+  (config) => {
+    const startTime = Date.now();
+    const sessionInfo = analytics.getSessionInfo();
+    if (sessionInfo.correlationId) {
+      config.headers["x-correlation-id"] = sessionInfo.correlationId;
     }
-    throw new Error(error.message || 'Network error');
+    (config as any).startTime = startTime;
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  (response) => {
+    const endTime = Date.now();
+    const startTime = (response.config as any).startTime || endTime;
+    const responseTime = endTime - startTime;
+    const correlationId = response.headers["x-correlation-id"];
+    if (correlationId) {
+      analytics.setCorrelationId(correlationId);
+    }
+    analytics.trackUserAction("api_call_success", {
+      url: response.config.url,
+      method: response.config.method,
+      statusCode: response.status,
+      responseTime,
+      dataSize: JSON.stringify(response.data).length,
+    });
+    return response;
+  },
+  (error) => {
+    const endTime = Date.now();
+    const startTime = (error.config as any)?.startTime || endTime;
+    const responseTime = endTime - startTime;
+    const correlationId = error.response?.headers?.["x-correlation-id"];
+    if (correlationId) {
+      analytics.setCorrelationId(correlationId);
+    }
+    analytics.trackUserAction("api_call_error", {
+      url: error.config?.url,
+      method: error.config?.method,
+      statusCode: error.response?.status,
+      responseTime,
+      errorMessage: error.message,
+    });
+    analytics.trackError(error, {
+      context: "api_call",
+      url: error.config?.url,
+      method: error.config?.method,
+    });
+    if (error.response?.data) {
+      throw new Error(error.response.data.message || "An error occurred");
+    }
+    throw new Error(error.message || "Network error");
   }
 );
 
