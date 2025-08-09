@@ -1,18 +1,28 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ArrowLeft, Save, MapPin, Clock, User, Globe } from "lucide-react";
-import { useUser, useUpdateUser } from '../hooks/useUsers';
-import { updateUserSchema, type UpdateUserFormData } from '../lib/schemas';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { PageTransition, FadeIn, SlideIn } from '../components/motion';
-import { motion } from 'framer-motion';
+import {
+  ArrowLeft,
+  Save,
+  MapPin,
+  Clock,
+  User,
+  Globe,
+  AlertCircle,
+} from "lucide-react";
+import { useUser, useUpdateUser } from "../hooks/useUsers";
+import { updateUserSchema, type UpdateUserFormData } from "../lib/schemas";
+import LoadingSpinner from "../components/LoadingSpinner";
+import { PageTransition, FadeIn, SlideIn } from "../components/motion";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
 export default function EditUser() {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
   const { data: user, isLoading, error } = useUser(id!);
   const updateUserMutation = useUpdateUser();
+  const [apiError, setApiError] = useState<string | null>(null);
 
   const {
     register,
@@ -20,30 +30,42 @@ export default function EditUser() {
     formState: { errors, isSubmitting },
   } = useForm<UpdateUserFormData>({
     resolver: zodResolver(updateUserSchema),
-    values: user ? {
-      name: user.name,
-      zipCode: user.zipCode,
-    } : undefined,
+    values: user
+      ? {
+          name: user.name,
+          zipCode: user.zipCode,
+        }
+      : undefined,
   });
 
   const onSubmit = async (data: UpdateUserFormData) => {
     if (!id) return;
-    
+    setApiError(null);
     try {
       await updateUserMutation.mutateAsync({ id, userData: data });
-      navigate('/users');
+      navigate("/users");
     } catch (error) {
-      console.error('Failed to update user:', error);
+      console.error("Failed to update user:", error);
+      let errorMessage =
+        error instanceof Error ? error.message : "An unexpected error occurred";
+      if (errorMessage.includes("Unable to fetch location data for ZIP code")) {
+        errorMessage =
+          "The ZIP code you entered could not be found. Please verify it's a valid US ZIP code and try again.";
+      } else if (errorMessage.includes("OpenWeather")) {
+        errorMessage =
+          "Unable to verify the ZIP code location. Please check the ZIP code and try again.";
+      }
+      setApiError(errorMessage);
     }
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('en-US', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
+    return new Date(dateString).toLocaleDateString("en-US", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
@@ -140,6 +162,26 @@ export default function EditUser() {
                 </div>
 
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                  {apiError && (
+                    <FadeIn delay={0.1}>
+                      <motion.div
+                        initial={{ opacity: 0, y: -10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl"
+                      >
+                        <div className="flex items-start space-x-3">
+                          <AlertCircle className="h-5 w-5 text-red-400 mt-0.5 flex-shrink-0" />
+                          <div>
+                            <p className="text-sm font-medium text-red-400 mb-1">
+                              Unable to Update User
+                            </p>
+                            <p className="text-xs text-red-300">{apiError}</p>
+                          </div>
+                        </div>
+                      </motion.div>
+                    </FadeIn>
+                  )}
+
                   <FadeIn delay={0.3}>
                     <div>
                       <label
@@ -219,7 +261,10 @@ export default function EditUser() {
                             </p>
                             <p className="text-xs text-dark-300">
                               Changing the ZIP code will automatically update
-                              coordinates and timezone data via OpenWeather API.
+                              coordinates and timezone data via OpenWeather API.{" "}
+                              <strong>
+                                Note: Only US ZIP codes are supported.
+                              </strong>
                             </p>
                           </div>
                         </div>

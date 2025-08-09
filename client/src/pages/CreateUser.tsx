@@ -1,16 +1,18 @@
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { ArrowLeft, Save, MapPin, User } from "lucide-react";
-import { useCreateUser } from '../hooks/useUsers';
-import { createUserSchema, type CreateUserFormData } from '../lib/schemas';
-import LoadingSpinner from '../components/LoadingSpinner';
-import { PageTransition, FadeIn, SlideIn } from '../components/motion';
-import { motion } from 'framer-motion';
+import { ArrowLeft, Save, MapPin, User, AlertCircle } from "lucide-react";
+import { useCreateUser } from "../hooks/useUsers";
+import { createUserSchema, type CreateUserFormData } from "../lib/schemas";
+import LoadingSpinner from "../components/LoadingSpinner";
+import { PageTransition, FadeIn, SlideIn } from "../components/motion";
+import { motion } from "framer-motion";
+import { useState } from "react";
 
 export default function CreateUser() {
   const navigate = useNavigate();
   const createUserMutation = useCreateUser();
+  const [apiError, setApiError] = useState<string | null>(null);
 
   const {
     register,
@@ -21,11 +23,24 @@ export default function CreateUser() {
   });
 
   const onSubmit = async (data: CreateUserFormData) => {
+    setApiError(null);
     try {
       await createUserMutation.mutateAsync(data);
-      navigate('/users');
+      navigate("/users");
     } catch (error) {
-      console.error('Failed to create user:', error);
+      console.error("Failed to create user:", error);
+      let errorMessage =
+        error instanceof Error ? error.message : "An unexpected error occurred";
+
+      if (errorMessage.includes("Unable to fetch location data for ZIP code")) {
+        errorMessage =
+          "The ZIP code you entered could not be found. Please verify it's a valid US ZIP code and try again.";
+      } else if (errorMessage.includes("OpenWeather")) {
+        errorMessage =
+          "Unable to verify the ZIP code location. Please check the ZIP code and try again.";
+      }
+
+      setApiError(errorMessage);
     }
   };
 
@@ -69,6 +84,26 @@ export default function CreateUser() {
               </div>
 
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+                {apiError && (
+                  <FadeIn delay={0.1}>
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl"
+                    >
+                      <div className="flex items-start space-x-3">
+                        <AlertCircle className="h-5 w-5 text-red-400 mt-0.5 flex-shrink-0" />
+                        <div>
+                          <p className="text-sm font-medium text-red-400 mb-1">
+                            Unable to Create User
+                          </p>
+                          <p className="text-xs text-red-300">{apiError}</p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  </FadeIn>
+                )}
+
                 <FadeIn delay={0.3}>
                   <div>
                     <label
@@ -149,7 +184,10 @@ export default function CreateUser() {
                           <p className="text-xs text-dark-300">
                             We'll automatically fetch geographic coordinates,
                             timezone, and location data from the OpenWeather API
-                            when you submit this form.
+                            when you submit this form.{" "}
+                            <strong>
+                              Note: Only US ZIP codes are supported.
+                            </strong>
                           </p>
                         </div>
                       </div>
