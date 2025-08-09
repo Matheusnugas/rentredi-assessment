@@ -4,7 +4,8 @@
     "declaration": false,
     "declarationMap": false,
     "sourceMap": false,
-    "types": ["node"]
+    "types": ["node"],
+    "typeRoots": ["./node_modules/@types", "../node_modules/@types", "./src/types"]
   },
   "exclude": ["node_modules", "**/*.test.ts", "**/*.spec.ts", "src/test/**/*"]
 } 
