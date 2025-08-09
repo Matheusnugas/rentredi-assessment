@@ -524,7 +524,7 @@ docker-compose up --build
 
 ## 🎯 Bonus: Hybrid Logging System
 
-As a demonstration of **senior-level technical expertise**, this project includes a hybrid logging system that combines backend audit logs with frontend analytics.
+As a demonstration of real life monitoring experience, this project includes a hybrid logging system that combines backend audit logs with frontend analytics.
 
 ### 🔧 What It Does
 
