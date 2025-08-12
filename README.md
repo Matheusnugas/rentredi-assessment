@@ -128,7 +128,7 @@ The application features a modern, responsive user interface built with React, T
 
 ### User List View
 
-<a href="https://ibb.co/Q7gdRx6q"><img src="https://i.ibb.co/Cpc2ZSnX/Screenshot-2025-08-08-at-15-08-12.png" alt="Screenshot-2025-08-08-at-15-08-12" border="0"></a>
+<a href="https://ibb.co/Wv2sFrQs"><img src="https://i.ibb.co/zV4Nb31N/Screenshot-2025-08-08-at-15-08-31.png" alt="Screenshot-2025-08-08-at-15-08-31" border="0"></a>
 
 *Comprehensive user listing with search and filter capabilities*
 
@@ -136,13 +136,13 @@ The application features a modern, responsive user interface built with React, T
 
 ### Create User Form
 
-<a href="https://ibb.co/Wv2sFrQs"><img src="https://i.ibb.co/zV4Nb31N/Screenshot-2025-08-08-at-15-08-31.png" alt="Screenshot-2025-08-08-at-15-08-31" border="0"></a>
+<a href="https://ibb.co/Q7gdRx6q"><img src="https://i.ibb.co/Cpc2ZSnX/Screenshot-2025-08-08-at-15-08-12.png" alt="Screenshot-2025-08-08-at-15-08-12" border="0"></a>
 
 *User creation form with real-time validation and geographic data enrichment*
 
 ---
 
-### User Details View
+### User Details View + Edit User Interface
 
 <a href="https://ibb.co/zVsW94GL"><img src="https://i.ibb.co/xqhK97Jc/Screenshot-2025-08-08-at-15-08-39.png" alt="Screenshot-2025-08-08-at-15-08-39" border="0"></a>
 
@@ -150,7 +150,7 @@ The application features a modern, responsive user interface built with React, T
 
 ---
 
-### Edit User Interface
+### Dashboard/Map Overview
 
 <a href="https://ibb.co/zhhw2K04"><img src="https://i.ibb.co/mCC7yQMc/Screenshot-2025-08-08-at-15-08-49.png" alt="Screenshot-2025-08-08-at-15-08-49" border="0"></a>
 
